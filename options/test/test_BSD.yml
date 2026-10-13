@@ -1,0 +1,117 @@
+name: MVSSM-BSD-Test
+model_type: VideoRecurrentModel
+scale: 1
+num_gpu: 1  # set num_gpu: 0 for cpu mode`
+manual_seed: 0
+
+datasets:
+  test_1:  # the 1st test dataset
+    name: BSD-O
+    type: VideoRecurrentSplitClipsTestDataset
+    dataroot_gt: /root/MVSSM/datasets/BSD/test/gt
+    dataroot_lq: /root/MVSSM/datasets/BSD/test/blur
+    data_augment: -1  # ['90', '180', '270', 'V', 'H', 'T', '-1']
+    cache_data: False
+    io_backend:
+      type: disk
+    num_frame: 35
+    num_overlap: 0
+
+  test_2: # the 1st test dataset
+    name: BSD-90
+    type: VideoRecurrentSplitClipsTestDataset
+    dataroot_gt: /root/MVSSM/datasets/BSD/test/gt
+    dataroot_lq: /root/MVSSM/datasets/BSD/test/blur
+    data_augment: 90  # ['90', '180', '270', 'V', 'H', 'T', '-1']
+    cache_data: False
+    io_backend:
+      type: disk
+    num_frame: 35
+    num_overlap: 0
+
+  test_3: # the 1st test dataset
+    name: BSD-180
+    type: VideoRecurrentSplitClipsTestDataset
+    dataroot_gt: /root/MVSSM/datasets/BSD/test/gt
+    dataroot_lq: /root/MVSSM/datasets/BSD/test/blur
+    data_augment: 180  # ['90', '180', '270', 'V', 'H', 'T', '-1']
+    cache_data: False
+    io_backend:
+      type: disk
+    num_frame: 35
+    num_overlap: 0
+
+  test_4: # the 1st test dataset
+    name: BSD-270
+    type: VideoRecurrentSplitClipsTestDataset
+    dataroot_gt: /root/MVSSM/datasets/BSD/test/gt
+    dataroot_lq: /root/MVSSM/datasets/BSD/test/blur
+    data_augment: 270  # ['90', '180', '270', 'V', 'H', 'T', '-1']
+    cache_data: False
+    io_backend:
+      type: disk
+    num_frame: 35
+    num_overlap: 0
+
+  test_5: # the 1st test dataset
+    name: BSD-V
+    type: VideoRecurrentSplitClipsTestDataset
+    dataroot_gt: /root/MVSSM/datasets/BSD/test/gt
+    dataroot_lq: /root/MVSSM/datasets/BSD/test/blur
+    data_augment: V  # ['90', '180', '270', 'V', 'H', 'T', '-1']
+    cache_data: False
+    io_backend:
+      type: disk
+    num_frame: 35
+    num_overlap: 0
+
+  test_6: # the 1st test dataset
+    name: BSD-H
+    type: VideoRecurrentSplitClipsTestDataset
+    dataroot_gt: /root/MVSSM/datasets/BSD/test/gt
+    dataroot_lq: /root/MVSSM/datasets/BSD/test/blur
+    data_augment: H  # ['90', '180', '270', 'V', 'H', 'T', '-1']
+    cache_data: False
+    io_backend:
+      type: disk
+    num_frame: 35
+    num_overlap: 0
+
+  test_7: # the 1st test dataset
+    name: BSD-T
+    type: VideoRecurrentSplitClipsTestDataset
+    dataroot_gt: /root/MVSSM/datasets/BSD/test/gt
+    dataroot_lq: /root/MVSSM/datasets/BSD/test/blur
+    data_augment: T  # ['90', '180', '270', 'V', 'H', 'T', '-1']
+    cache_data: False
+    io_backend:
+      type: disk
+    num_frame: 35
+    num_overlap: 0
+
+# network structures
+network_g:
+  type: MVSSM_arch
+  channels: 64
+  mamba_blocks: [3, 4]
+  fusion_blocks: 15
+
+# path
+path:
+  pretrain_network_g: experiments/BSD.pth
+  strict_load_g: true
+
+# validation settingsa
+val:
+  save_img: true
+  flip_seq: false
+  suffix: ~  # add suffix to saved images, if None, use exp name
+
+  metrics:
+    psnr:
+      type: calculate_psnr
+      crop_border: 0
+    ssim:
+      type: calculate_ssim
+      crop_border: 0
+
